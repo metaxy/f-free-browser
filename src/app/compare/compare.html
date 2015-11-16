@@ -1,0 +1,10 @@
+<div ng-if="!compareCtrl.results">
+  None Selected
+</div>
+<div ng-if="compareCtrl.results">
+  <md-tabs md-dynamic-height md-border-bottom>
+    <md-tab label="one" ng-repeat="(id, result) in compareCtrl.results">
+      Config file: {{result.options.config}}
+    </md-tab>
+  </md-tabs>
+</div>

@@ -1,0 +1,8 @@
+<md-button class="md-raised md-primary" ng-click="mainCtrl.compare()">Compare them</md-button> 
+
+<md-list ng-cloak>
+  <md-list-item ng-repeat="item in mainCtrl.benchmarks">
+    <p> {{ item.time }} </p>
+    <md-checkbox class="md-secondary" ng-model="item.selected"></md-checkbox>
+  </md-list-item>
+</md-list>

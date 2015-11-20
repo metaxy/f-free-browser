@@ -1,0 +1,149 @@
+<div ng-if="!compareCtrl.results">
+  None Selected
+</div>
+<div ng-if="compareCtrl.results">
+  <md-tabs md-dynamic-height md-border-bottom>
+    <md-tab label="{{result.start_time}}" ng-repeat="(id, result) in compareCtrl.results">
+      <md-card>
+        <md-card-content>
+          <h2>Configuration</h2>
+          <table class="table table-striped table-hover">
+            <tr>
+              <td>Config File</td>
+              <td>{{result.options.config}}</td>
+            </tr>
+            <tr>
+              <td>Instances</td>
+              <td>{{result.config.instances}}</td>
+            </tr>
+            <tr>
+              <td>Forbidden</td>
+              <td>{{result.config.forbidden}}</td>
+            </tr>
+            <tr>
+              <td>Seed</td>
+              <td>{{result.config.seed}}</td>
+            </tr>
+            <tr>
+              <td>Programms</td>
+              <td>
+                <span ng-repeat="prog in result.config.progs">{{prog}}</span>
+              </td>
+            </tr>
+            <tr>
+              <td>Maximum run time</td>
+              <td>{{result.config.max_time}}</td>
+            </tr>
+            <tr>
+              <td>Revison</td>
+              <td><a href="https://github.com/metaxy/f-free/commit/{{result.git_hash}}">{{result.commit_message}}</a></td>
+            </tr>
+          </table>
+        </md-card-content>
+      </md-card>
+      
+      <md-card>
+        <md-card-content>
+          <h2> Statistics</h2>
+          <table class="table table-striped table-hover">
+            <tr>
+              <th>Value</th>
+              <th ng-repeat="(prog,data) in result.stats">{{prog}}</th>
+            </tr>
+            <tr>
+              <td>Quality</td>
+              <td ng-repeat="(prog,data) in result.stats" ng-class="{max : data.quality == result.stats_quality_max}">{{data.quality | number:1}} %</td>
+            </tr>
+            <tr>
+              <td>Quality if solved</td>
+              <td ng-repeat="(prog,data) in result.stats" ng-class="{max : data.quality_solved == result.stats_quality_solved_max}">{{data.quality_solved | number:1}} %</td>
+            </tr>
+            <tr>
+              <td>Failed Instances</td>
+              <td ng-repeat="(prog,data) in result.stats" ng-class="{max : data.failed == result.stats_failed_min}">{{data.failed}}</td>
+            </tr>
+            <tr>
+              <td>Failed in %</td>
+              <td ng-repeat="(prog,data) in result.stats"  ng-class="{max : data.failed_percent == result.stats_failed_percent_min}">{{data.failed_percent | number:1}}%</td>
+            </tr>
+            <tr>
+              <td>Mean Time</td>
+              <td ng-repeat="(prog,data) in result.stats" ng-class="{max : data.mean_time == result.stats_mean_time_min}">{{data.mean_time | number:2}}s</td>
+            </tr>
+          </table>
+        </md-card-content>
+      </md-card>
+      
+      <md-card>
+        <md-card-content>
+          <h2>File</h2>
+          <table class="table table-striped table-hover">
+            <tr>
+              <th>File</th>
+              <th ng-repeat="prog in result.config.progs">{{prog}}</th>
+              <th>Action</th>
+            </tr>
+            <tr ng-repeat="(graph,runs) in result.results">
+              <td>{{graph}}</td>
+              <td ng-repeat="run in runs" ng-class="{failed: run.k == -1}" ng-click="compareCtrl.showRun($event, run)">
+                {{run.k}} of {{run.kcorrect}} ({{run.quality*100 | number:1}}%) in {{run.time_log.user_time | number:2}}s
+              </td>
+              <td>
+                <md-button aria-label="Compare Runs" ng-click="compareCtrl.compareRun($event, runs)">
+                  <ng-md-icon icon="compare"></ng-md-icon>
+                </md-button>
+              </td>
+            </tr>
+            
+          </table>
+        </md-card-content>
+      </md-card>
+      
+    </md-tab>
+    
+    <md-tab label="All">
+      <md-card>
+        <md-card-content>
+          <h2>Configuration</h2>
+          <table class="table table-striped table-hover">
+            <tr>
+              <th>Value</th>
+              <th ng-repeat="(id, result) in compareCtrl.results">{{result.start_time}}</th>
+            </tr>
+            <tr>
+              <td>Config File</td>
+              <td ng-repeat="(id, result) in compareCtrl.results">{{result.options.config}}</td>
+            </tr>
+            <tr>
+              <td>Instances</td>
+              <td ng-repeat="(id, result) in compareCtrl.results">{{result.config.instances}}</td>
+            </tr>
+            <tr>
+              <td>Forbidden</td>
+              <td ng-repeat="(id, result) in compareCtrl.results">{{result.config.forbidden}}</td>
+            </tr>
+            <tr>
+              <td>Seed</td>
+              <td ng-repeat="(id, result) in compareCtrl.results">{{result.config.seed}}</td>
+            </tr>
+            <tr>
+              <td>Programms</td>
+              <td ng-repeat="(id, result) in compareCtrl.results">
+                <span ng-repeat="prog in result.config.progs">{{prog}}</span>
+              </td>
+            </tr>
+            <tr>
+              <td>Maximum run time</td>
+              <td ng-repeat="(id, result) in compareCtrl.results">{{result.config.max_time}}</td>
+            </tr>
+            <tr>
+              <td>Revison</td>
+              <td ng-repeat="(id, result) in compareCtrl.results"><a href="https://github.com/metaxy/f-free/commit/{{result.git_hash}}">{{result.commit_message}}</a></td>
+            </tr>
+          </table>
+         </md-card-content>
+      </md-card>
+    </md-tab>
+    
+  </md-tabs>
+</div>

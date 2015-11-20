@@ -1,0 +1,76 @@
+<md-dialog ng-cloak>
+  <md-content>
+    <md-card>
+      <md-card-content>
+        <h2> General Info </h2>
+        <table class="table table-striped table-hover">
+          <tr>
+            <td>Prog</td>
+            <td>{{dialogCtrl.item.prog}}</td>
+          </tr>
+          <tr>
+            <td>Graph</td>
+            <td>{{dialogCtrl.item.graph}}</td>
+          </tr>
+          <tr>
+            <td>K</td>
+            <td>{{dialogCtrl.item.k}}</td>
+          </tr>
+          <tr>
+            <td>K-Correct</td>
+            <td>{{dialogCtrl.item.kcorrect}}</td>
+          </tr>
+          <tr>
+            <td>Time</td>
+            <td>{{dialogCtrl.item.time | number: 2}}s</td>
+          </tr>
+          <tr>
+            <td>qualitiy</td>
+            <td>{{dialogCtrl.item.quality*100 | number:1}}%</td>
+          </tr>
+          <tr>
+            <td>Simple Command</td>
+            <td>{{dialogCtrl.item.simple_command}}</td>
+          </tr>
+          <tr>
+            <td>Result Command</td>
+            <td>{{dialogCtrl.item.result_file_name}}</td>
+          </tr>
+        </table>
+      </md-card-content>
+    </md-card>
+    
+    <md-card>
+      <md-card-content>
+        <h2> Time Info </h2>
+        <table class="table table-striped table-hover">
+          <tr ng-repeat="(title,data) in dialogCtrl.item.time_log">
+            <td>{{title}}</td>
+            <td>{{data}}</td>
+          </tr>
+        </table>
+     </md-card-content>
+    </md-card>
+    
+     <md-card>
+      <md-card-content>   
+        <h2> Debug Info </h2>
+        <table class="table table-striped table-hover">
+          <tr ng-repeat="(title,data) in dialogCtrl.item.debug_out">
+            <td>{{title}}</td>
+            <td>{{data}}</td>
+          </tr>
+        </table>
+     </md-card-content>
+    </md-card>
+    
+    <md-card ng-if="dialogCtrl.item.log_output">
+      <md-card-content>
+        <h2> Log Output </h2>
+        <pre>
+        {{dialogCtrl.item.log_output}}
+        </pre>
+     </md-card-content>
+    </md-card>
+  </md-content>
+</md-dialog>

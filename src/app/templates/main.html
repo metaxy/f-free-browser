@@ -1,8 +1,15 @@
 <md-button class="md-raised md-primary" ng-click="mainCtrl.compare()">Compare them</md-button> 
 
 <md-list ng-cloak>
-  <md-list-item ng-repeat="item in mainCtrl.benchmarks">
-    <p> {{ item.time }} </p>
+  <md-list-item ng-repeat="item in mainCtrl.benchmarks | orderBy:'-time'">
+    <h3> {{ item.time }} </h3>
+    <span class="forbidden-chip"> {{item.forbidden.split('/').reverse()[0]}}</span>
+    <span class="instances-chip"> {{item.instances.split('/').reverse()[0]}}</span>
+    <p>
+      <span class="prog-chip" ng-repeat="prog in item.progs">
+        {{prog}}
+      </span>
+    </p>
     <md-checkbox class="md-secondary" ng-model="item.selected"></md-checkbox>
   </md-list-item>
 </md-list>

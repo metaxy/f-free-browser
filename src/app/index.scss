@@ -37,6 +37,25 @@ html {
   color: red;
 }
 
+.prog-chip {
+  padding: 2px;
+  margin-left: 3px;
+  border-radius: 5px;
+  background-color: #F5F5F5;
+}
+
+.forbidden-chip {
+  padding: 2px;
+  margin-left: 3px;
+  border-radius: 5px;
+  background-color: #FFBCBC;
+}
+.instances-chip {
+  padding: 2px;
+  margin-left: 3px;
+  border-radius: 5px;
+  background-color: #D9FFC1;
+}
 /**
  *  Do not remove the comment below. It's the markers used by gulp-inject to inject
  *  all your sass files automatically

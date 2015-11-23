@@ -7,7 +7,7 @@ import { CompareController } from './controller/compare.controller';
 import { SiteController } from './controller/site.controller';
 import { DialogController } from './controller/dialog.controller';
 
-angular.module('browserFree', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ngMessages', 'ngAria', 'ui.router', 'ngMaterial', 'ngMdIcons'])
+angular.module('browserFree', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ngMessages', 'ngAria', 'ui.router', 'ngMaterial', 'ngMdIcons', 'nvd3'])
   .config(config)
   .config(routerConfig)
   .run(runBlock)

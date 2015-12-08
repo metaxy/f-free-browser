@@ -1,7 +1,37 @@
 /* global _:false */
-export function CompareController($log, $stateParams, $http, $q, resolveData, $mdDialog, $document) {'ngInject';
+export function CompareController(
+  resolveData,
+  resolveModel,
+  $mdDialog, 
+  $document,
+  $log,
+  $scope,
+  $timeout,
+  GraphCompareService,
+  GraphResultsModelService
+  
+) {'ngInject';
+  $scope.graphsData = [];
+  
+  this.x_key = "density";
+  this.y_key = "quality";
+  
+  this.recalculate = () => {
+    $log.info("recalcuate");
+    this.graphsData = [];
+    _.each(resolveData, (data, i) => {
+      var d = GraphResultsModelService.calculate(resolveModel[i], this.x_key, data, this.y_key);
+      $scope.graphsData = d;
+      //.push(d);
+    })
+  }
+  
   this.results = resolveData;
-
+  this.graphResultsModelOptions = GraphResultsModelService.options;
+  
+  this.modelKeys = Object.keys(resolveModel[0][Object.keys(resolveModel[0])[0]]);
+  this.resultKeys = ["time", "quality"];
+  
   
   this.showRun = (ev, item) => {
     $mdDialog.show({
@@ -29,48 +59,14 @@ export function CompareController($log, $stateParams, $http, $q, resolveData, $m
   };
   
   
-  this.optionsProgCompare = {
-    chart: {
-      type: 'multiBarHorizontalChart',
-      height: 450,
-      x: (d) => d.label,
-      y: (d) => d.value,
-      showControls: true,
-      showValues: true,
-      transitionDuration: 500,
-      xAxis: {
-        showMaxMin: false
-      },
-      yAxis: {
-        axisLabel: 'Values'
-      }
-    }
-  };
-  this.calcDataOptionsProgCompare = () => {
-    
-    var options = { 
-      "quality": " Quality",
-      "quality_solved":  "Quality of solved",
-      "failed":  "Failed",
-      "mean_time": "Mean time"
-    }
-    var ret = [];
-    resolveData.forEach((res) => {
-      _.each(res.stats, (data, prog) => {
-        
-        var values = [];
-        _.each(options, (value, key) => {
-          values.push({"label": value, "value" : data[key]});
-        });
-        
-        ret.push({
-          "key" : prog,
-          "color": "#000",
-          "values" : values
-        });
-      });
-    });
-    this.dataOptionsProgCompare = ret;
-  }
-  this.calcDataOptionsProgCompare();
+  this.optionsProgCompare = GraphCompareService.options;
+  this.dataOptionsProgCompare = GraphCompareService.calculate(resolveData);
+  
+  $scope.$watch('x_key + y_key',  () => {
+    this.recalculate();
+  });
+  $scope.$watch('graphsData',  () => {
+    $log.info("graphs data changed");
+  });
+  
 }

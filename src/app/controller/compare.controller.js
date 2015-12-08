@@ -11,18 +11,17 @@ export function CompareController(
   GraphResultsModelService
   
 ) {'ngInject';
-  $scope.graphsData = [];
+  this.graphsData = [];
   
   this.x_key = "density";
   this.y_key = "quality";
   
   this.recalculate = () => {
-    $log.info("recalcuate");
+    $log.info("recalcuate", this.x_key, this.y_key);
     this.graphsData = [];
     _.each(resolveData, (data, i) => {
       var d = GraphResultsModelService.calculate(resolveModel[i], this.x_key, data, this.y_key);
-      $scope.graphsData = d;
-      //.push(d);
+      this.graphsData = d;
     })
   }
   
@@ -61,12 +60,7 @@ export function CompareController(
   
   this.optionsProgCompare = GraphCompareService.options;
   this.dataOptionsProgCompare = GraphCompareService.calculate(resolveData);
-  
-  $scope.$watch('x_key + y_key',  () => {
-    this.recalculate();
-  });
-  $scope.$watch('graphsData',  () => {
-    $log.info("graphs data changed");
-  });
+  this.recalculate();
+ 
   
 }

@@ -5,7 +5,7 @@ export function GraphResultsModelService(
   
   this.options = {
     chart: {
-      type: 'lineChart',
+      type: 'multiBarChart',
       height: 450,
       x: (d) => d.x,
       y: (d) => d.y,
@@ -26,11 +26,7 @@ export function GraphResultsModelService(
         left: 65
       },
       zoom: {
-        enabled: true,
-        scaleExtent: [
-          1,
-          10
-        ]
+        enabled: true
       }
     }
   };

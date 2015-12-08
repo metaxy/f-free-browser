@@ -79,22 +79,21 @@
           <md-input-container>
           <label>Model</label>
             <md-select ng-model="compareCtrl.x_key" ng-change="compareCtrl.recalculate()">
-            <md-option ng-repeat="value in compareCtrl.modelKeys" value="{{value}}">
-              {{value}}
-            </md-option>
-          </md-select>
+              <md-option ng-repeat="value in compareCtrl.modelKeys" value="{{value}}">
+                {{value}}
+              </md-option>
+            </md-select>
           </md-input-container>
           
           <md-input-container>
-          <label>Result</label>
-            <md-select ng-model="compareCtrl.y_key" ng-change="compareCtrl.recalculate()">
-            <md-option ng-repeat="value in compareCtrl.resultKeys" value="{{value}}">
-              {{value}}
-            </md-option>
-          </md-select>
+          <md-select ng-model="compareCtrl.y_key" ng-change="compareCtrl.recalculate()">
+              <md-option ng-repeat="value in compareCtrl.resultKeys" value="{{value}}">
+                {{value}}
+              </md-option>
+            </md-select>
           </md-input-container>
           
-          <nvd3 options="compareCtrl.graphResultsModelOptions" data="graphsData" config="{refreshDataOnly: true, deepWatchData: true, deepWatchDataDepth: 2, }"></nvd3>
+          <nvd3 options="compareCtrl.graphResultsModelOptions" data="compareCtrl.graphsData" config="{deepWatchData: true, deepWatchDataDepth: 2}"></nvd3>
         <md-card-content>
       </md-card-content>
       

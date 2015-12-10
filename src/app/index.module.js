@@ -9,8 +9,9 @@ import { DialogController } from './controller/dialog.controller';
 import { ColorService } from './services/color-service';
 import { GraphCompareService } from './services/graph-compare-service';
 import { GraphResultsModelService } from './services/graph-results-model-service';
+import { GraphResultsModelScatterService } from './services/graph-results-model-scatter-service';
 
-angular.module('browserFree', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ngMessages', 'ngAria', 'ui.router', 'ngMaterial', 'ngMdIcons', 'nvd3'])
+angular.module('browserFree', ['ngAnimate', 'ngCookies', 'ngSanitize', 'ngMessages', 'ngAria', 'ui.router', 'ngMaterial', 'ngMdIcons', 'nvd3'])
   .config(config)
   .config(routerConfig)
   .run(runBlock)
@@ -21,4 +22,5 @@ angular.module('browserFree', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize'
   .service('ColorService', ColorService)
   .service('GraphCompareService', GraphCompareService)
   .service('GraphResultsModelService', GraphResultsModelService)
+  .service('GraphResultsModelScatterService', GraphResultsModelScatterService)
   ;

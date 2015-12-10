@@ -8,31 +8,35 @@ export function CompareController(
   $scope,
   $timeout,
   GraphCompareService,
-  GraphResultsModelService
+  GraphResultsModelService,
+  GraphResultsModelScatterService
   
 ) {'ngInject';
-  this.graphsData = [];
+  this.graphsData = {}
+  this.graphsDataScatter = [];
+  this.apis = {};
   
   this.x_key = "density";
   this.y_key = "quality";
   
   this.recalculate = () => {
-    $log.info("recalcuate", this.x_key, this.y_key);
-    this.graphsData = [];
+    this.graphsData = {}
     _.each(resolveData, (data, i) => {
-      var d = GraphResultsModelService.calculate(resolveModel[i], this.x_key, data, this.y_key);
-      this.graphsData = d;
+      this.graphsData[i] = GraphResultsModelService.calculate(resolveModel[i], this.x_key, data, this.y_key);
     })
+    if(this.api)
+      this.api.update();
   }
   
   this.results = resolveData;
   this.graphResultsModelOptions = GraphResultsModelService.options;
+  this.graphResultsModelScatterOptions = GraphResultsModelScatterService.options;
   
   this.modelKeys = Object.keys(resolveModel[0][Object.keys(resolveModel[0])[0]]);
   this.resultKeys = ["time", "quality"];
   
   
-  this.showRun = (ev, item) => {
+  this.showRun = (ev, run) => {
     $mdDialog.show({
       controller: "DialogController",
       controllerAs: 'dialogCtrl',
@@ -40,7 +44,7 @@ export function CompareController(
       parent: angular.element($document.body),
       targetEvent: ev,
       clickOutsideToClose:true,
-      locals: {item: item},
+      locals: {item: run},
       bindToController: true
     })
   };
@@ -56,6 +60,19 @@ export function CompareController(
       bindToController: true
     })
   };
+  
+  /*this.showGraph = (ev, graph, result) => {
+    $mdDialog.show({
+      controller: "DialogController",
+      controllerAs: 'dialogCtrl',
+      templateUrl: 'app/templates/view_graph.html',
+      parent: angular.element($document.body),
+      targetEvent: ev,
+      clickOutsideToClose:true,
+      locals: {graph: graph, result: result},
+      bindToController: true
+    })
+  };*/
   
   
   this.optionsProgCompare = GraphCompareService.options;

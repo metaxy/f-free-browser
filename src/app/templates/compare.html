@@ -1,8 +1,23 @@
+<md-toolbar>
+  <div class="md-toolbar-tools">
+   <h2>View Results </h2>
+  </div>  
+  <md-tabs md-selected="currentTab">
+    <md-tab id="tab{{id+1}}" aria-controls="tab{{id+1}}-content" ng-repeat="(id, result) in compareCtrl.results">
+      {{result.start_time}}
+    </md-tab>
+    <md-tab>
+      All
+    </md-tab>
+  </md-tabs>
+</md-toolbar>
+
+
 <div ng-if="!compareCtrl.results">
   None Selected
 </div>
-<div ng-if="compareCtrl.results">
-  <md-tabs md-dynamic-height md-border-bottom>
+<div ng-if="compareCtrl.results" layout-padding>
+  <md-tabs md-dynamic-height md-border-bottom  md-selected="currentTab" class="noTabPanel">
     <md-tab label="{{result.start_time}}" ng-repeat="(id, result) in compareCtrl.results">
       <md-card>
         <md-card-content>
@@ -93,7 +108,8 @@
             </md-select>
           </md-input-container>
           
-          <nvd3 options="compareCtrl.graphResultsModelOptions" data="compareCtrl.graphsData" config="{deepWatchData: true, deepWatchDataDepth: 2}"></nvd3>
+          <nvd3 options="compareCtrl.graphResultsModelOptions" data="compareCtrl.graphsData[id]" config="{deepWatchData: false}" api="compareCtrl.api"></nvd3>
+          <nvd3 options="compareCtrl.graphResultsModelScatterOptions" data="compareCtrl.graphsData[id]" config="{deepWatchData: false}" api="compareCtrl.api"></nvd3>
         <md-card-content>
       </md-card-content>
       
@@ -103,13 +119,13 @@
           <table class="table table-striped table-hover">
             <tr>
               <th>File</th>
-              <th ng-repeat="prog in result.config.progs">{{prog}}</th>
+              <th ng-repeat="prog in ::result.config.progs">{{::prog}}</th>
               <th>Action</th>
             </tr>
-            <tr ng-repeat="(graph,runs) in result.results">
-              <td>{{graph}}</td>
-              <td ng-repeat="run in runs" ng-class="{failed: run.k == -1}" ng-click="compareCtrl.showRun($event, run)">
-                {{run.k}} of {{run.kcorrect}} ({{run.quality*100 | number:1}}%) in {{run.time_log.user_time | number:2}}s
+            <tr ng-repeat="(graph,runs) in ::result.results">
+              <td>{{::graph}}</td>
+              <td ng-repeat="run in ::runs" ng-class="::{failed: run.k == -1}" ng-click="compareCtrl.showRun($event, run)">
+                {{::run.k}} of {{::run.kcorrect}} ({{::run.quality*100 | number:1}}%) in {{::run.time_log.user_time | number:2}}s
               </td>
               <td>
                 <md-button aria-label="Compare Runs" ng-click="compareCtrl.compareRun($event, runs)">
@@ -131,15 +147,15 @@
           <table class="table table-striped table-hover">
             <tr>
               <th>Value</th>
-              <th ng-repeat="(id, result) in compareCtrl.results">{{result.start_time}}</th>
+              <th ng-repeat="(id, result) in ::compareCtrl.results">{{::result.start_time}}</th>
             </tr>
             <tr>
               <td>Config File</td>
-              <td ng-repeat="(id, result) in compareCtrl.results">{{result.options.config}}</td>
+              <td ng-repeat="(id, result) in ::compareCtrl.results">{{::result.options.config}}</td>
             </tr>
             <tr>
               <td>Instances</td>
-              <td ng-repeat="(id, result) in compareCtrl.results">{{result.config.instances}}</td>
+              <td ng-repeat="(id, result) in ::compareCtrl.results">{{::result.config.instances}}</td>
             </tr>
             <tr>
               <td>Forbidden</td>
@@ -151,22 +167,22 @@
             </tr>
             <tr>
               <td>Programms</td>
-              <td ng-repeat="(id, result) in compareCtrl.results">
-                <span ng-repeat="prog in result.config.progs">{{prog}}</span>
+              <td ng-repeat="(id, result) in ::compareCtrl.results">
+                <span ng-repeat="prog in ::result.config.progs">{{::prog}}</span>
               </td>
             </tr>
             <tr>
               <td>Maximum run time</td>
-              <td ng-repeat="(id, result) in compareCtrl.results">{{result.config.max_time}}</td>
+              <td ng-repeat="(id, result) in ::compareCtrl.results">{{::result.config.max_time}}</td>
             </tr>
             <tr>
               <td>Revison</td>
-              <td ng-repeat="(id, result) in compareCtrl.results"><a href="https://github.com/metaxy/f-free/commit/{{result.git_hash}}">{{result.commit_message}}</a></td>
+              <td ng-repeat="(id, result) in ::compareCtrl.results"><a href="https://github.com/metaxy/f-free/commit/{{result.git_hash}}">{{result.commit_message}}</a></td>
             </tr>
           </table>
          </md-card-content>
          
-        <nvd3 options="compareCtrl.optionsProgCompare" data="compareCtrl.dataOptionsProgCompare"></nvd3>
+        <nvd3 options="::compareCtrl.optionsProgCompare" data="::compareCtrl.dataOptionsProgCompare"></nvd3>
           
       </md-card>
     </md-tab>

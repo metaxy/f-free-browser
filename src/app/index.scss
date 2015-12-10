@@ -56,6 +56,17 @@ html {
   border-radius: 5px;
   background-color: #D9FFC1;
 }
+
+md-tabs.noTabPanel md-tabs-wrapper {
+    display: none !important;
+}
+
+md-content {
+  background-color: rgb(224,224,224) !important;
+}
+body {
+  background-color: rgb(224,224,224) !important;
+}
 /**
  *  Do not remove the comment below. It's the markers used by gulp-inject to inject
  *  all your sass files automatically

@@ -3,7 +3,7 @@ export function config ($logProvider,  $mdThemingProvider) {
   // Enable log
   $logProvider.debugEnabled(true);
    $mdThemingProvider.theme('default')
-    .primaryPalette('pink')
+    .primaryPalette('blue')
     .accentPalette('orange')
     .backgroundPalette('grey');
 }

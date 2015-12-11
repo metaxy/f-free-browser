@@ -1,4 +1,3 @@
-/* global _:false */
 export function GraphResultsModelScatterService(
   ColorService,
   GraphResultsModelService

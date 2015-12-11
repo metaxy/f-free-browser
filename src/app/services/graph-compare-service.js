@@ -18,6 +18,8 @@ export function GraphCompareService(ColorService) {"ngInject";
       }
     }
   };
+  
+
   this.calculate = (data) => {
     
     var options = { 

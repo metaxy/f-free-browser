@@ -93,7 +93,7 @@
         <md-card-content>
           <md-input-container>
           <label>Model</label>
-            <md-select ng-model="compareCtrl.x_key" ng-change="compareCtrl.recalculate()">
+            <md-select ng-model="compareCtrl.graphs[id].x_key" ng-change="compareCtrl.recalculateOne(id)" aria-label="Select x">
               <md-option ng-repeat="value in compareCtrl.modelKeys" value="{{value}}">
                 {{value}}
               </md-option>
@@ -101,15 +101,16 @@
           </md-input-container>
           
           <md-input-container>
-          <md-select ng-model="compareCtrl.y_key" ng-change="compareCtrl.recalculate()">
+          <md-select ng-model="compareCtrl.graphs[id].y_key" ng-change="compareCtrl.recalculateOne(id)" aria-label="Select y">
               <md-option ng-repeat="value in compareCtrl.resultKeys" value="{{value}}">
                 {{value}}
               </md-option>
             </md-select>
           </md-input-container>
           
-          <nvd3 options="compareCtrl.graphResultsModelOptions" data="compareCtrl.graphsData[id]" config="{deepWatchData: false}" api="compareCtrl.api"></nvd3>
-          <nvd3 options="compareCtrl.graphResultsModelScatterOptions" data="compareCtrl.graphsData[id]" config="{deepWatchData: false}" api="compareCtrl.api"></nvd3>
+          <nvd3 options="compareCtrl.graphs[id].modelResult.options" data="compareCtrl.graphs[id].modelResult.data" config="{deepWatchData: false}" api="compareCtrl.graphs[id].modelResult.api"></nvd3>
+          <nvd3 options="compareCtrl.graphs[id].modelResultScatter.options" data="compareCtrl.graphs[id].modelResultScatter.data" config="{deepWatchData: false}" api="compareCtrl.graphs[id].modelResultScatter.api"></nvd3>
+          <nvd3 options="compareCtrl.graphs[id].modelResultBar.options" data="compareCtrl.graphs[id].modelResultBar.data" config="{deepWatchData: false}" api="compareCtrl.graphs[id].modelResultBar.api"></nvd3>
         <md-card-content>
       </md-card-content>
       

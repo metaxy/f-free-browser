@@ -11,7 +11,35 @@ export function GraphResultsModelService(
       y: (d) => d.y,
       showControls: true,
       showValues: true,
-      transitionDuration: 500,
+      transitionDuration: 0,
+      "useInteractiveGuideline": true,
+      xAxis: {
+        showMaxMin: false
+      },
+      yAxis: {
+        axisLabel: 'Values'
+      },
+      margin : {
+        top: 20,
+        right: 20,
+        bottom: 60,
+        left: 65
+      },
+      zoom: {
+        enabled: false
+      }
+    }
+  };
+  
+  this.optionsBar = {
+    chart: {
+      type: 'multiBarChart',
+      height: 450,
+      x: (d) => d.x,
+      y: (d) => d.y,
+      showControls: true,
+      showValues: true,
+      transitionDuration: 0,
       "useInteractiveGuideline": true,
       xAxis: {
         showMaxMin: false
@@ -28,6 +56,20 @@ export function GraphResultsModelService(
       zoom: {
         enabled: true
       }
+    }
+  };
+  this.optionsScatter = {
+    chart: {
+      type: 'scatterChart',
+      height: 450,
+      x: (d) => d.x,
+      y: (d) => d.y,
+      scatter: {
+        onlyCircles: false
+      },
+      showDistX: true,
+      showDistY: true
+      
     }
   };
   this.calculate = (models, models_key, results, results_key) => {

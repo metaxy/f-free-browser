@@ -8,29 +8,62 @@ export function CompareController(
   $scope,
   $timeout,
   GraphCompareService,
-  GraphResultsModelService,
-  GraphResultsModelScatterService
+  GraphResultsModelService
   
 ) {'ngInject';
-  this.graphsData = {}
-  this.graphsDataScatter = [];
-  this.apis = {};
   
-  this.x_key = "density";
-  this.y_key = "quality";
-  
+  this.graphs = {};
+  _.each(resolveData, (data, i) => {
+    this.graphs[i] = {
+      x_key: "density",
+      y_key: "quality",
+      modelResult: {
+        data: {},
+        options: GraphResultsModelService.options
+      }, 
+      modelResultScatter: {
+        data: {},
+        options: GraphResultsModelService.optionsScatter
+      },
+      modelResultBar: {
+        data: {},
+        options: GraphResultsModelService.optionsBar
+      }
+      
+    };
+    
+  })
+ 
   this.recalculate = () => {
-    this.graphsData = {}
+    $log.info("recalculate");
     _.each(resolveData, (data, i) => {
-      this.graphsData[i] = GraphResultsModelService.calculate(resolveModel[i], this.x_key, data, this.y_key);
+      this.recalculateOne(i);
     })
-    if(this.api)
-      this.api.update();
+  }
+  
+  this.recalculateOne = (i) => {
+    var graph = this.graphs[i];
+    var data = resolveData[i];
+    var calc = GraphResultsModelService.calculate(resolveModel[i], graph.x_key, data, graph.y_key);
+    
+    graph.modelResult.data = calc;
+    if(graph.modelResult.api) {
+      graph.modelResult.api.updateWithData(calc);
+    }  
+      
+    
+    graph.modelResultScatter.data = calc;
+    if(graph.modelResultScatter.api) {
+      graph.modelResultScatter.api.updateWithData(calc);
+    }
+    
+    graph.modelResultBar.data = calc;
+    if(graph.modelResultBar.api) {
+      graph.modelResultBar.api.updateWithData(calc);
+    }
   }
   
   this.results = resolveData;
-  this.graphResultsModelOptions = GraphResultsModelService.options;
-  this.graphResultsModelScatterOptions = GraphResultsModelScatterService.options;
   
   this.modelKeys = Object.keys(resolveModel[0][Object.keys(resolveModel[0])[0]]);
   this.resultKeys = ["time", "quality"];

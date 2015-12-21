@@ -23,7 +23,7 @@ export function routerConfig ($stateProvider, $urlRouterProvider) {
         'selected': { array: true }
       },
       resolve: {
-        resolveData: ($http, $stateParams, $q) => {
+        resolveData: ($http, $stateParams, $q, HelperService) => {
           if(!$stateParams.selected) {
             return [];
           }
@@ -38,6 +38,7 @@ export function routerConfig ($stateProvider, $urlRouterProvider) {
               resp.stats_quality_solved_max = _.max(resp.stats, (a) => a.quality_solved).quality_solved;
               resp.stats_failed_min = _.min(resp.stats, (a) => a.failed).failed;
               resp.stats_failed_percent_min = _.min(resp.stats, (a) => a.failed_percent).failed_percent;
+              resp.name = HelperService.basename(resp.options.config) + " : " + HelperService.basename(resp.config.instances) + " - " + HelperService.basename(resp.config.forbidden);
               return resp;
             });
             results.push(promise);

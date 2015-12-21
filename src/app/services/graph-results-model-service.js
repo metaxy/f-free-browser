@@ -58,20 +58,7 @@ export function GraphResultsModelService(
       }
     }
   };
-  this.optionsScatter = {
-    chart: {
-      type: 'scatterChart',
-      height: 450,
-      x: (d) => d.x,
-      y: (d) => d.y,
-      scatter: {
-        onlyCircles: false
-      },
-      showDistX: true,
-      showDistY: true
-      
-    }
-  };
+
   this.calculate = (models, models_key, results, results_key) => {
     var ret = [];
     var progCount = 0;
@@ -86,8 +73,11 @@ export function GraphResultsModelService(
     });
     
     _.each(results.config.progs, (prog) => {
+      var avg = (val) => _.reduce(_.map(val, (x) => x.y), (a,b) => a+b) / val.length;
+      
+      var v = _.map(_.groupBy(values[prog],'x'), (val) => {return {x: val[0].x, y: avg(val)}});
       ret.push({
-        values: _.sortBy(values[prog], 'x'),
+        values: _.sortBy(v, 'x'),
         key: prog,
         color: ColorService.getColor(progCount, 0)
       });
@@ -95,5 +85,7 @@ export function GraphResultsModelService(
     });
     return ret;
   }
+  
+
 }
 

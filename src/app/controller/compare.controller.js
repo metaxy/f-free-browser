@@ -8,7 +8,9 @@ export function CompareController(
   $scope,
   $timeout,
   GraphCompareService,
-  GraphResultsModelService
+  GraphProgCompareService,
+  GraphResultsModelService,
+  GraphResultsModelScatterService
   
 ) {'ngInject';
   
@@ -23,11 +25,17 @@ export function CompareController(
       }, 
       modelResultScatter: {
         data: {},
-        options: GraphResultsModelService.optionsScatter
+        options: GraphResultsModelScatterService.options
       },
       modelResultBar: {
         data: {},
         options: GraphResultsModelService.optionsBar
+      },
+      compare: {
+        data: {},
+        options: GraphProgCompareService.options,
+        prog1: data.config.progs[0],
+        prog2: data.config.progs[1]
       }
       
     };
@@ -35,9 +43,9 @@ export function CompareController(
   })
  
   this.recalculate = () => {
-    $log.info("recalculate");
     _.each(resolveData, (data, i) => {
       this.recalculateOne(i);
+      this.recalculateCompare(i);
     })
   }
   
@@ -52,15 +60,24 @@ export function CompareController(
     }  
       
     
-    graph.modelResultScatter.data = calc;
+    graph.modelResultScatter.data = GraphResultsModelScatterService.calculate(resolveModel[i], graph.x_key, data, graph.y_key);
     if(graph.modelResultScatter.api) {
-      graph.modelResultScatter.api.updateWithData(calc);
+      graph.modelResultScatter.api.updateWithData(graph.modelResultScatter.data);
     }
     
     graph.modelResultBar.data = calc;
     if(graph.modelResultBar.api) {
       graph.modelResultBar.api.updateWithData(calc);
     }
+  }
+  
+  this.recalculateCompare = (i) => {
+    var graph = this.graphs[i].compare;
+    if(resolveData[i].config.progs.length < 2) return;  
+    graph.data = GraphProgCompareService.calculate(resolveData[i], graph.prog1, graph.prog2, "quality");
+    if(graph.api) {
+      graph.api.updateWithData(graph.data);
+    }  
   }
   
   this.results = resolveData;
@@ -93,19 +110,7 @@ export function CompareController(
       bindToController: true
     })
   };
-  
-  /*this.showGraph = (ev, graph, result) => {
-    $mdDialog.show({
-      controller: "DialogController",
-      controllerAs: 'dialogCtrl',
-      templateUrl: 'app/templates/view_graph.html',
-      parent: angular.element($document.body),
-      targetEvent: ev,
-      clickOutsideToClose:true,
-      locals: {graph: graph, result: result},
-      bindToController: true
-    })
-  };*/
+
   
   
   this.optionsProgCompare = GraphCompareService.options;

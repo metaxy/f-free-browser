@@ -1,17 +1,17 @@
 <md-toolbar>
   <div class="md-toolbar-tools">
+   <md-button><ng-md-icon icon="home" ui-sref="home" aria-label="home"> </ng-md-icon></md-button>
    <h2>View Results </h2>
   </div>  
   <md-tabs md-selected="currentTab">
     <md-tab id="tab{{id+1}}" aria-controls="tab{{id+1}}-content" ng-repeat="(id, result) in compareCtrl.results">
-      {{result.start_time}}
+      {{result.name}}
     </md-tab>
     <md-tab>
       All
     </md-tab>
   </md-tabs>
 </md-toolbar>
-
 
 <div ng-if="!compareCtrl.results">
   None Selected
@@ -112,7 +112,29 @@
           <nvd3 options="compareCtrl.graphs[id].modelResultScatter.options" data="compareCtrl.graphs[id].modelResultScatter.data" config="{deepWatchData: false}" api="compareCtrl.graphs[id].modelResultScatter.api"></nvd3>
           <nvd3 options="compareCtrl.graphs[id].modelResultBar.options" data="compareCtrl.graphs[id].modelResultBar.data" config="{deepWatchData: false}" api="compareCtrl.graphs[id].modelResultBar.api"></nvd3>
         <md-card-content>
-      </md-card-content>
+      </md-card>
+      
+      <md-card ng-if="compareCtrl.graphs[id].compare.data.length > 0">
+        <md-card-content>
+          <md-input-container>
+            <label>Model</label>
+            <md-select ng-model="compareCtrl.graphs[id].compare.prog1" ng-change="compareCtrl.recalculateCompare(id)" aria-label="Select x">
+              <md-option ng-repeat="value in result.config.progs" value="{{value}}">
+                {{value}}
+              </md-option>
+            </md-select>
+          </md-input-container>
+          
+          <md-input-container>
+          <md-select ng-model="compareCtrl.graphs[id].compare.prog2" ng-change="compareCtrl.recalculateCompare(id)" aria-label="Select y">
+              <md-option ng-repeat="value in result.config.progs" value="{{value}}">
+                {{value}}
+              </md-option>
+            </md-select>
+          </md-input-container>
+          <nvd3 options="compareCtrl.graphs[id].compare.options" data="compareCtrl.graphs[id].compare.data" api="compareCtrl.graphs[id].compare.api"></nvd3>
+        </md-card-content>
+      </md-card>  
       
       <md-card>
         <md-card-content>
@@ -183,9 +205,19 @@
           </table>
          </md-card-content>
          
-        <nvd3 options="::compareCtrl.optionsProgCompare" data="::compareCtrl.dataOptionsProgCompare"></nvd3>
+        
           
       </md-card>
+      
+      <md-card>
+        <md-card-content>
+          <h2> Results </h2>
+          <nvd3 options="::compareCtrl.optionsProgCompare" data="::compareCtrl.dataOptionsProgCompare"></nvd3>
+        </md-card-content>
+      </md-card>  
+      
+      
+      
     </md-tab>
     
   </md-tabs>

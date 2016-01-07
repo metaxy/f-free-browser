@@ -3,8 +3,7 @@ export function modGraph(
   $timeout, 
   $http,
   $document,
-  HelperService,
-  $log
+  HelperService
 ) {'ngInject';
   return {
     templateUrl: 'app/templates/view_graph.html',
@@ -54,7 +53,6 @@ export function modGraph(
         ];
       $http.get($scope.graph).then((graph) => {
         $http.get($scope.result).then((result) => {
-          console.log(result.data);
           cytoscape({
             container: document.getElementById('cy'), // container to render in
             elements: HelperService.makeEdges(graph.data, result.data),
@@ -66,7 +64,7 @@ export function modGraph(
           });
         });
       });
-    },
+    }
   };
 }
 

@@ -1,5 +1,3 @@
-/* global _:false */
-
 export function routerConfig ($stateProvider, $urlRouterProvider) {
   'ngInject';
   $stateProvider
@@ -32,15 +30,7 @@ export function routerConfig ($stateProvider, $urlRouterProvider) {
             var promise = 
             $http.get(file)
             .then((resp) => {return resp.data;})
-            .then((resp) => {
-              resp.stats_mean_time_min = _.min(resp.stats, (a) => a.mean_time).mean_time;
-              resp.stats_quality_max = _.max(resp.stats, (a) => a.quality).quality;
-              resp.stats_quality_solved_max = _.max(resp.stats, (a) => a.quality_solved).quality_solved;
-              resp.stats_failed_min = _.min(resp.stats, (a) => a.failed).failed;
-              resp.stats_failed_percent_min = _.min(resp.stats, (a) => a.failed_percent).failed_percent;
-              resp.name = HelperService.basename(resp.options.config) + " : " + HelperService.basename(resp.config.instances) + " - " + HelperService.basename(resp.config.forbidden);
-              return resp;
-            });
+            .then(HelperService.transformResult);
             results.push(promise);
           });
           return $q.all(results);
@@ -49,6 +39,32 @@ export function routerConfig ($stateProvider, $urlRouterProvider) {
           var results = [];
           resolveData.forEach((data) => {
             results.push($http.get(data.config.instances+'/graph_info.json').then((resp) => {return resp.data;}));
+          });
+          return $q.all(results);
+        }
+        
+      }
+    })
+    .state('overview', {
+      url: '/overview/:selected',
+      templateUrl: 'app/templates/overview.html',
+      controller: 'OverviewController',
+      controllerAs: 'ctrl',
+      params: {
+        'selected': { array: true }
+      },
+      resolve: {
+        resolveData: ($http, $stateParams, $q, HelperService) => {
+          if(!$stateParams.selected) {
+            return [];
+          }
+          var results = [];
+          $stateParams.selected.forEach((file) => {
+            var promise = 
+            $http.get(file)
+            .then((resp) => {return resp.data;})
+            .then(HelperService.transformResult);
+            results.push(promise);
           });
           return $q.all(results);
         }

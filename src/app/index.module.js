@@ -4,6 +4,7 @@ import { routerConfig } from './index.route';
 import { runBlock } from './index.run';
 import { MainController } from './controller/main.controller';
 import { CompareController } from './controller/compare.controller';
+import { OverviewController } from './controller/overview.controller';
 import { SiteController } from './controller/site.controller';
 import { DialogController } from './controller/dialog.controller';
 import { ColorService } from './services/color-service';
@@ -22,6 +23,7 @@ angular.module('browserFree', ['ngAnimate', 'ngCookies', 'ngSanitize', 'ngMessag
   .controller('CompareController', CompareController)
   .controller('SiteController', SiteController)
   .controller('DialogController', DialogController)
+  .controller('OverviewController', OverviewController)
   .service('ColorService', ColorService)
   .service('GraphCompareService', GraphCompareService)
   .service('GraphProgCompareService', GraphProgCompareService)

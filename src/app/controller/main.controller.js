@@ -10,4 +10,13 @@ export function MainController(resolveBenchmarks, $state) {'ngInject';
     });
     $state.go('compare', {selected: selected});
   }
+   this.overview = () => {
+    var selected = [];
+    this.benchmarks.forEach((item) => {
+      if(item.selected) {
+        selected.push(item.fileName);
+      }
+    });
+    $state.go('overview', {selected: selected});
+  }
 }

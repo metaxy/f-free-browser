@@ -61,4 +61,14 @@ export function HelperService(
     return ret;
   }
   
+  
+  this.transformResult = (resp) => {
+    resp.stats_mean_time_min = _.min(resp.stats, (a) => a.mean_time).mean_time;
+    resp.stats_quality_max = _.max(resp.stats, (a) => a.quality).quality;
+    resp.stats_quality_solved_max = _.max(resp.stats, (a) => a.quality_solved).quality_solved;
+    resp.stats_failed_min = _.min(resp.stats, (a) => a.failed).failed;
+    resp.stats_failed_percent_min = _.min(resp.stats, (a) => a.failed_percent).failed_percent;
+    resp.name = this.basename(resp.options.config) + " : " + this.basename(resp.config.instances) + " - " + this.basename(resp.config.forbidden);
+    return resp;
+  }
 }

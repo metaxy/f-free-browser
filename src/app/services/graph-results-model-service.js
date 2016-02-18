@@ -1,8 +1,13 @@
 /* global _:false */
+
+/**
+ * Used in CompareController
+ */
 export function GraphResultsModelService(
   ColorService
 ) {"ngInject";
   
+  //this.options and this.options bar are using the same data but only displaying it differently
   this.options = {
     chart: {
       type: 'lineChart',
@@ -58,17 +63,24 @@ export function GraphResultsModelService(
       }
     }
   };
-
+  /**
+   * models :: object -- List of models, from $INSTANCES/graph_info.json
+   * models_key :: string -- (x-axis) every models has a property by wich we will analyze it
+   * results :: object -- Complete results
+   * results_key :: string -- (y-axis) which key from the result we want to analyze
+   */
   this.calculate = (models, models_key, results, results_key) => {
     var ret = [];
     var progCount = 0;
     var values = {};
+    
      _.each(results.config.progs, (prog) => {
        values[prog] = []; //initalize
      });
+     
     _.each(results.results, (runs, graph) => {
       _.each(runs, (run) => {
-        values[run.prog].push({x: models[graph][models_key], y: run[results_key]});
+        values[run.prog].push({x: models[graph][models_key], y: run.metrics[results_key]});
       });
     });
     

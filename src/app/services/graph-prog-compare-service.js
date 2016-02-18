@@ -23,17 +23,25 @@ export function GraphProgCompareService(
   
 
   this.calculate = (result, prog1, prog2, compare) => {
-    var values = [];
+    let values = [];
     _.each(result.results, (runs) => {
-      var p1 = _.findWhere(runs, {prog: prog1});
-      var p2 = _.findWhere(runs, {prog: prog2});
-      values.push({x: p1[compare], y: p2[compare]});
+      let p1 = _.findWhere(runs, {prog: prog1});
+      let p2 = _.findWhere(runs, {prog: prog2});
+      values.push({x: p1.metrics[compare], y: p2.metrics[compare]});
     });
-    return [{
-      values: values,
-      key: "Compare",
-      color: ColorService.getColor(0, 0)
-    }];
+    return [
+      {
+        values: values,
+        key: "Compare",
+        color: ColorService.getColor(0, 0)
+      },
+      {
+        key: 'Middle Line',
+        values: [{x:-10000,y:-10000},{x:10000,y:10000}],
+        slope: 1.0,
+        intercept: 0.000001
+      }
+    ];
   }
   
 

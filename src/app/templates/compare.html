@@ -42,7 +42,7 @@
             <tr>
               <td>Programms</td>
               <td>
-                <span ng-repeat="prog in result.config.progs">{{prog}}</span>
+                <span class="prog-chip" ng-repeat="prog in result.config.progs">{{prog}}</span>
               </td>
             </tr>
             <tr>
@@ -187,7 +187,7 @@
             <tr>
               <td>Programms</td>
               <td ng-repeat="(id, result) in ::compareCtrl.results">
-                <span ng-repeat="prog in ::result.config.progs">{{::prog}}</span>
+                <span class="prog-chip" ng-repeat="prog in ::result.config.progs">{{::prog}}</span>
               </td>
             </tr>
             <tr>

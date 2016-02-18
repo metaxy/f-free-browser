@@ -16,7 +16,11 @@
           </tr>
           <tr>
             <td>Graph</td>
-            <td>{{dialogCtrl.item.graph}}</td>
+            <td>
+              <a target="_blank" ng-href="{{dialogCtrl.item.graph_path}}">
+                {{dialogCtrl.item.graph}}
+              </a>
+            </td>
           </tr>
           <tr>
             <td>K</td>
@@ -28,11 +32,15 @@
           </tr>
           <tr>
             <td>Time</td>
-            <td>{{dialogCtrl.item.time | number: 2}}s</td>
+            <td>{{dialogCtrl.item.metrics.time | number: 2}}s</td>
           </tr>
           <tr>
-            <td>Qualitiy</td>
-            <td>{{dialogCtrl.item.metrics.quality | number:1}}%</td>
+            <td>Quality</td>
+            <td>{{dialogCtrl.item.metrics.quality*100 | number:1}}%</td>
+          </tr>
+           <tr>
+            <td>Inverse Quality</td>
+            <td>{{dialogCtrl.item.metrics.quality_inv | number:2}}</td>
           </tr>
           <tr>
             <td>Distance</td>
@@ -43,8 +51,8 @@
             <td>{{dialogCtrl.item.simple_command}}</td>
           </tr>
           <tr>
-            <td>Result Command</td>
-            <td>{{dialogCtrl.item.result_file_name}}</td>
+            <td>Result Filename</td>
+            <td><a target="_blank" ng-href="{{dialogCtrl.item.result_file_name}}">{{dialogCtrl.item.result_file_name}}</a></td>
           </tr>
         </table>
       </md-card-content>

@@ -39,20 +39,21 @@ html {
 }
 
 .prog-chip {
-  padding: 2px;
+  padding: 3px;
   margin-left: 3px;
   border-radius: 5px;
   background-color: #F5F5F5;
+  border: 1px solid darken(#F5F5F5, 10%);
 }
 
 .forbidden-chip {
-  padding: 2px;
+  padding: 3px;
   margin-left: 3px;
   border-radius: 5px;
   background-color: #FFBCBC;
 }
 .instances-chip {
-  padding: 2px;
+  padding: 3px;
   margin-left: 3px;
   border-radius: 5px;
   background-color: #D9FFC1;

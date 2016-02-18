@@ -50,9 +50,9 @@ export function CompareController(
   }
   
   this.recalculateOne = (i) => {
-    var graph = this.graphs[i];
-    var data = resolveData[i];
-    var calc = GraphResultsModelService.calculate(resolveModel[i], graph.x_key, data, graph.y_key);
+    let graph = this.graphs[i];
+    let data = resolveData[i];
+    let calc = GraphResultsModelService.calculate(resolveModel[i], graph.x_key, data, graph.y_key);
     
     graph.modelResult.data = calc;
     if(graph.modelResult.api) {
@@ -72,7 +72,7 @@ export function CompareController(
   }
   
   this.recalculateCompare = (i) => {
-    var graph = this.graphs[i].compare;
+    let graph = this.graphs[i].compare;
     if(resolveData[i].config.progs.length < 2) return;  
     graph.data = GraphProgCompareService.calculate(resolveData[i], graph.prog1, graph.prog2, "quality");
     if(graph.api) {
@@ -83,7 +83,7 @@ export function CompareController(
   this.results = resolveData;
   
   this.modelKeys = Object.keys(resolveModel[0][Object.keys(resolveModel[0])[0]]);
-  this.resultKeys = ["time", "quality"];
+  this.resultKeys = ["absolut", "no_correct", "solved", "quality", "quality_inv", "distance", "k_correct"];
   
   
   this.showRun = (ev, run) => {

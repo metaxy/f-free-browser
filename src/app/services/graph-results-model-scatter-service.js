@@ -26,7 +26,7 @@ export function GraphResultsModelScatterService(
      });
     _.each(results.results, (runs, graph) => {
       _.each(runs, (run) => {
-        values[run.prog].push({x: models[graph][models_key], y: run[results_key]});
+        values[run.prog].push({x: models[graph][models_key], y: run.metrics[results_key]});
       });
     });
     

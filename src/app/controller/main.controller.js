@@ -5,7 +5,7 @@ export function MainController(resolveBenchmarks, $state) {'ngInject';
     var selected = [];
     this.benchmarks.forEach((item) => {
       if(item.selected) {
-        selected.push('./'+item.fileName);
+        selected.push(item.fileName);
       }
     });
     $state.go('compare', {selected: selected});
@@ -14,7 +14,7 @@ export function MainController(resolveBenchmarks, $state) {'ngInject';
     var selected = [];
     this.benchmarks.forEach((item) => {
       if(item.selected) {
-        selected.push('./'+item.fileName);
+        selected.push(item.fileName);
       }
     });
     $state.go('overview', {selected: selected});

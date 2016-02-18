@@ -32,7 +32,7 @@ export function GraphResultsModelScatterService(
     
     _.each(results.config.progs, (prog) => {
       ret.push({
-        values: _.sortBy(_.sortBy(values[prog],'y'), 'x'),
+        values: _.sortBy(_.sortBy(values[prog], 'y'), 'x'),
         key: prog,
         color: ColorService.getColor(progCount, 0)
       });

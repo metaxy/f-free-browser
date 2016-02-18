@@ -10,16 +10,38 @@
 </div>
 
 <div ng-if="ctrl.results" layout-padding>
-   <table class="table table-striped table-hover">
-      <tr>
-        <th>Benchmark of Quality</th>
-        <th ng-repeat="prog in ::ctrl.results[0].config.progs">{{::prog}}</th>
-      </tr>
-      <tr ng-repeat="result in ::ctrl.results">
-        <td>{{::result.name}}</td>
-        <td ng-repeat="prog in ::ctrl.results[0].config.progs" ng-class="{max : result.stats[prog].quality == result.stats_quality_max}">{{::result.stats[prog].quality | number:1}} %</td>
-      </tr> 
-    </table>
+  <table class="table table-striped table-hover">
+    <tr>
+      <th>Quality (mean)</th>
+      <th ng-repeat="prog in ::ctrl.results[0].config.progs">{{::prog}}</th>
+    </tr>
+    <tr ng-repeat="result in ::ctrl.results">
+      <td>{{::result.name}}</td>
+      <td ng-repeat="prog in ::ctrl.results[0].config.progs" ng-class="{max : result.stats[prog].quality == result.stats_quality_max}">{{::result.stats[prog].quality*100 | number:1}} %</td>
+    </tr> 
+  </table>
+  
+  <table class="table table-striped table-hover">
+    <tr>
+      <th>Absolut (mean)</th>
+      <th ng-repeat="prog in ::ctrl.results[0].config.progs">{{::prog}}</th>
+    </tr>
+    <tr ng-repeat="result in ::ctrl.results">
+      <td>{{::result.name}}</td>
+      <td ng-repeat="prog in ::ctrl.results[0].config.progs" ng-class="{max : result.stats[prog].quality == result.stats_quality_max}">{{::result.stats[prog].absolut}} </td>
+    </tr> 
+  </table>
+  
+  <table class="table table-striped table-hover">
+    <tr>
+      <th>Has the best of all</th>
+      <th ng-repeat="prog in ::ctrl.results[0].config.progs">{{::prog}}</th>
+    </tr>
+    <tr ng-repeat="result in ::ctrl.results">
+      <td>{{::result.name}}</td>
+      <td ng-repeat="prog in ::ctrl.results[0].config.progs">{{::result.stats[prog].winning}} </td>
+    </tr> 
+  </table>
     
     <table class="table table-striped table-hover">
       <tr>
@@ -39,7 +61,7 @@
       </tr>
       <tr ng-repeat="result in ::ctrl.results">
         <td>{{::result.name}}</td>
-        <td ng-repeat="prog in ::ctrl.results[0].config.progs" ng-class="{max : result.stats[prog].mean_time == result.stats_mean_time_min}">{{::result.stats[prog].mean_time | number:2}} s</td>
+        <td ng-repeat="prog in ::ctrl.results[0].config.progs" ng-class="{max : result.stats[prog].mean_time == result.stats_mean_time_min}">{{::result.stats[prog].time | number:2}} s</td>
       </tr> 
     </table>
 </div>

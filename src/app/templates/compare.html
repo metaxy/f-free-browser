@@ -67,11 +67,7 @@
             </tr>
             <tr>
               <td>Quality</td>
-              <td ng-repeat="(prog,data) in result.stats" ng-class="{max : data.quality == result.stats_quality_max}">{{data.quality | number:1}} %</td>
-            </tr>
-            <tr>
-              <td>Quality if solved</td>
-              <td ng-repeat="(prog,data) in result.stats" ng-class="{max : data.quality_solved == result.stats_quality_solved_max}">{{data.quality_solved | number:1}} %</td>
+              <td ng-repeat="(prog,data) in result.stats" ng-class="{max : data.quality == result.stats_quality_max}">{{data.quality*100 | number:1}} %</td>
             </tr>
             <tr>
               <td>Failed Instances</td>
@@ -83,7 +79,7 @@
             </tr>
             <tr>
               <td>Mean Time</td>
-              <td ng-repeat="(prog,data) in result.stats" ng-class="{max : data.mean_time == result.stats_mean_time_min}">{{data.mean_time | number:2}}s</td>
+              <td ng-repeat="(prog,data) in result.stats" ng-class="{max : data.mean_time == result.stats_mean_time_min}">{{data.time | number:2}}s</td>
             </tr>
           </table>
         </md-card-content>
@@ -148,7 +144,7 @@
             <tr ng-repeat="(graph,runs) in ::result.results">
               <td>{{::graph}}</td>
               <td ng-repeat="run in ::runs" ng-class="::{failed: run.k == -1}" ng-click="compareCtrl.showRun($event, run)">
-                {{::run.k}} of {{::run.kcorrect}} ({{::run.quality*100 | number:1}}%) in {{::run.time_log.user_time | number:2}}s
+                {{::run.metrics.absolut}} of {{::run.metrics.k_correct}} ({{::run.metrics.quality*100 | number:1}}%) in {{::run.time_log.user_time | number:2}}s
               </td>
               <td>
                 <md-button aria-label="Compare Runs" ng-click="compareCtrl.compareRun($event, runs)">

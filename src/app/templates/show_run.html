@@ -20,19 +20,23 @@
           </tr>
           <tr>
             <td>K</td>
-            <td>{{dialogCtrl.item.k}}</td>
+            <td>{{dialogCtrl.item.metrics.absolut}}</td>
           </tr>
           <tr>
             <td>K-Correct</td>
-            <td>{{dialogCtrl.item.kcorrect}}</td>
+            <td>{{dialogCtrl.item.metrics.k_correct}}</td>
           </tr>
           <tr>
             <td>Time</td>
             <td>{{dialogCtrl.item.time | number: 2}}s</td>
           </tr>
           <tr>
-            <td>qualitiy</td>
-            <td>{{dialogCtrl.item.quality*100 | number:1}}%</td>
+            <td>Qualitiy</td>
+            <td>{{dialogCtrl.item.metrics.quality | number:1}}%</td>
+          </tr>
+          <tr>
+            <td>Distance</td>
+            <td>{{dialogCtrl.item.metrics.distance}}</td>
           </tr>
           <tr>
             <td>Simple Command</td>

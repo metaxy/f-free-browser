@@ -23,10 +23,10 @@ export function GraphCompareService(ColorService) {"ngInject";
   this.calculate = (data) => {
     
     var options = { 
-      "quality": " Quality",
-      "quality_solved":  "Quality of solved",
-      "failed":  "Failed",
-      "mean_time": "Mean time"
+      "absolut": "Absolut Result",
+      "quality":  "Quality",
+      "quality_inv":  "Inverse Quality",
+      "distance": "Distance to correct"
     }
     var ret = [];
     var counterDataSet = 0;

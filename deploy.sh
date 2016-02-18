@@ -1,7 +1,8 @@
 git commit -am "deploy"
 gulp build
 git checkout gh-pages
-git add dist/ -f
+cp dist/* ./ -R
+git add *
 rsync -az --force --delete --progress /home/paul/coding/f-free/data_benchmarks/ data_benchmarks/
 rsync -az --force --delete --progress -e ssh /home/paul/coding/f-free/model/ model/
 git add data_benchmarks/ -f

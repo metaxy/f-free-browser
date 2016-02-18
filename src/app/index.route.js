@@ -8,7 +8,7 @@ export function routerConfig ($stateProvider, $urlRouterProvider) {
       controllerAs: 'mainCtrl',
       resolve: {
         resolveBenchmarks: ($http) => {
-          return $http.get('/data_benchmarks/list.json').then((resp) => {return resp.data;});
+          return $http.get('./data_benchmarks/list.json').then((resp) => {return resp.data;});
         }
       }
     })
@@ -38,7 +38,7 @@ export function routerConfig ($stateProvider, $urlRouterProvider) {
         resolveModel: (resolveData, $http, $q) => {
           var results = [];
           resolveData.forEach((data) => {
-            results.push($http.get(data.config.instances+'/graph_info.json').then((resp) => {return resp.data;}));
+            results.push($http.get('./'+data.config.instances+'/graph_info.json').then((resp) => {return resp.data;}));
           });
           return $q.all(results);
         }

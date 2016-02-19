@@ -83,7 +83,7 @@ export function CompareController(
   this.results = resolveData;
   
   this.modelKeys = Object.keys(resolveModel[0][Object.keys(resolveModel[0])[0]]);
-  this.resultKeys = ["absolut", "no_correct", "solved", "quality", "quality_inv", "distance", "k_correct"];
+  this.resultKeys = ["absolut", "no_correct", "solved", "quality", "quality_inv", "distance", "k_correct", "time"];
   
   
   this.showRun = (ev, run) => {

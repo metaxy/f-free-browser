@@ -1,13 +1,14 @@
 /* global _:false */
 
 /**
- * Used in CompareController
+ * Used in CompareController. This is the first Graph.
  */
 export function GraphResultsModelService(
-  ColorService
+  ColorService,
+  HelperService
 ) {"ngInject";
   
-  //this.options and this.options bar are using the same data but only displaying it differently
+  //this.options and this.optionsbar are using the same data but only displaying it differently
   this.options = {
     chart: {
       type: 'lineChart',
@@ -85,11 +86,15 @@ export function GraphResultsModelService(
     });
     
     _.each(results.config.progs, (prog) => {
-      var avg = (val) => _.reduce(_.map(val, (x) => x.y), (a,b) => a+b) / val.length;
+      var avg = (val) => HelperService.avg(_.map(val, x => x.y));
+      var v = _.chain(values[prog])
+        .groupBy('x')
+        .map((val) => {return {x: val[0].x, y: avg(val)}})
+        .sortBy('x')
+        .value();
       
-      var v = _.map(_.groupBy(values[prog],'x'), (val) => {return {x: val[0].x, y: avg(val)}});
       ret.push({
-        values: _.sortBy(v, 'x'),
+        values: v,
         key: prog,
         color: ColorService.getColor(progCount, 0)
       });

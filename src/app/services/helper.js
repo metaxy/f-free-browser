@@ -70,4 +70,6 @@ export function HelperService(
     resp.name = this.basename(resp.options.config) + " : " + this.basename(resp.config.instances) + " - " + this.basename(resp.config.forbidden);
     return resp;
   }
+  
+  this.avg = (val) => _.reduce(val, (a,b) => a+b) / val.length;//calculate the average of the results
 }

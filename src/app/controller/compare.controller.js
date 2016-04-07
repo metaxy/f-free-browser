@@ -19,6 +19,7 @@ export function CompareController(
     this.graphs[i] = {
       x_key: "density",
       y_key: "quality",
+      filterFailed: true,
       modelResult: {
         data: {},
         options: GraphResultsModelService.options
@@ -33,9 +34,10 @@ export function CompareController(
       },
       compare: {
         data: {},
-        options: GraphProgCompareService.options,
+        options: GraphProgCompareService.options(),
         prog1: data.config.progs[0],
-        prog2: data.config.progs[1]
+        prog2: data.config.progs[1],
+        key: "quality"
       }
       
     };
@@ -52,7 +54,9 @@ export function CompareController(
   this.recalculateOne = (i) => {
     let graph = this.graphs[i];
     let data = resolveData[i];
-    let calc = GraphResultsModelService.calculate(resolveModel[i], graph.x_key, data, graph.y_key);
+    let model = resolveModel[i];
+    console.log(data, model);
+    let calc = GraphResultsModelService.calculate(model, graph.x_key, data, graph.y_key);
     
     graph.modelResult.data = calc;
     if(graph.modelResult.api) {
@@ -60,7 +64,7 @@ export function CompareController(
     }  
       
     
-    graph.modelResultScatter.data = GraphResultsModelScatterService.calculate(resolveModel[i], graph.x_key, data, graph.y_key);
+    graph.modelResultScatter.data = GraphResultsModelScatterService.calculate(model, graph.x_key, data, graph.y_key);
     if(graph.modelResultScatter.api) {
       graph.modelResultScatter.api.updateWithData(graph.modelResultScatter.data);
     }
@@ -72,12 +76,15 @@ export function CompareController(
   }
   
   this.recalculateCompare = (i) => {
-    let graph = this.graphs[i].compare;
-    if(resolveData[i].config.progs.length < 2) return;  
-    graph.data = GraphProgCompareService.calculate(resolveData[i], graph.prog1, graph.prog2, "quality");
+    /*let graph = this.graphs[i].compare;
+    let data = resolveData[i];
+    if(data.config.progs.length < 2) return;  
+    graph.data = GraphProgCompareService.calculate(data, graph.prog1, graph.prog2, graph.key);
+    graph.options = GraphProgCompareService.options(data, graph.prog1, graph.prog2, graph.key);
     if(graph.api) {
       graph.api.updateWithData(graph.data);
-    }  
+      graph.api.updateWithOptions(graph.options);
+    }  */
   }
   
   this.results = resolveData;
@@ -98,6 +105,7 @@ export function CompareController(
       bindToController: true
     })
   };
+  
   this.compareRun = (ev, items) => {
     $mdDialog.show({
       controller: "DialogController",

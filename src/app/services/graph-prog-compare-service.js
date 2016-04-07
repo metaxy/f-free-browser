@@ -1,26 +1,37 @@
 /* global _:false */
+
+/**
+ * This the quadric box thing to compare two programs
+ */
 export function GraphProgCompareService(
   ColorService
 ) {"ngInject";
   
- this.options = {
-    chart: {
-      type: 'scatterChart',
-      height: 450,
-      width: 450,
-      x: (d) => d.x,
-      y: (d) => d.y,
-      scatter: {
-        onlyCircles: false
-      },
-      showDistX: true,
-      showDistY: true,
-      xDomain : [0,1],
-      yDomain : [0,1]
-      
-    }
-  };
-  
+  this.options = (result, prog1, prog2, compare) => {
+    return {
+      chart: {
+        type: 'scatterChart',
+        height: 450,
+        width: 450,
+        x: (d) => d.x,
+        y: (d) => d.y,
+        scatter: {
+          onlyCircles: false
+        },
+        showDistX: true,
+        showDistY: true,
+        xDomain : [0,1],
+        yDomain : [0,1],
+        xAxis: {
+          axisLabel: prog1
+        },
+        yAxis: {
+          axisLabel: prog2
+        }
+        
+      }
+    };
+  }
 
   this.calculate = (result, prog1, prog2, compare) => {
     let values = [];

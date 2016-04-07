@@ -1,4 +1,8 @@
 /* global _:false */
+
+/**
+ * This one in is unsed in the "All"-Tab in the "Results"-Box
+ */
 export function GraphCompareService(ColorService) {"ngInject";
   
   this.options = {
@@ -25,7 +29,7 @@ export function GraphCompareService(ColorService) {"ngInject";
     var options = { 
       "absolut": "Absolut Result",
       "quality":  "Quality",
-      "quality_inv":  "Inverse Quality",
+      "qualityInv":  "Inverse Quality",
       "distance": "Distance to correct"
     }
     var ret = [];

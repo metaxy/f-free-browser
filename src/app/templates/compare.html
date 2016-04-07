@@ -67,6 +67,10 @@
             </tr>
             <tr>
               <td>Quality</td>
+              <td ng-repeat="(prog,data) in result.stats" ng-class="{max : data.qualityInv == result.stats_quality_inv_max}">{{data.qualityInv | number:2}}x</td>
+            </tr>
+            <tr>
+              <td>Quality</td>
               <td ng-repeat="(prog,data) in result.stats" ng-class="{max : data.quality == result.stats_quality_max}">{{data.quality*100 | number:1}} %</td>
             </tr>
             <tr>
@@ -87,23 +91,31 @@
       
       <md-card>
         <md-card-content>
-          <md-input-container>
-          <label>Model</label>
-            <md-select ng-model="compareCtrl.graphs[id].x_key" ng-change="compareCtrl.recalculateOne(id)" aria-label="Select x">
-              <md-option ng-repeat="value in compareCtrl.modelKeys" value="{{value}}">
-                {{value}}
-              </md-option>
-            </md-select>
-          </md-input-container>
-          
-          <md-input-container>
-          <md-select ng-model="compareCtrl.graphs[id].y_key" ng-change="compareCtrl.recalculateOne(id)" aria-label="Select y">
-              <md-option ng-repeat="value in compareCtrl.resultKeys" value="{{value}}">
-                {{value}}
-              </md-option>
-            </md-select>
-          </md-input-container>
-          
+          <div layout="column">
+            <div layout="row">
+              <md-input-container>
+                <label>X Value</label>
+                <md-select ng-model="compareCtrl.graphs[id].x_key" ng-change="compareCtrl.recalculateOne(id)" aria-label="Select x">
+                  <md-option ng-repeat="value in compareCtrl.modelKeys" value="{{value}}">
+                    {{value}}
+                  </md-option>
+                </md-select>
+              </md-input-container>
+              
+              <md-input-container>
+                <label>Y Value</label>
+                <md-select ng-model="compareCtrl.graphs[id].y_key" ng-change="compareCtrl.recalculateOne(id)" aria-label="Select y">
+                  <md-option ng-repeat="value in compareCtrl.resultKeys" value="{{value}}">
+                    {{value}}
+                  </md-option>
+                </md-select>
+              </md-input-container>
+            </div>
+            <div>
+              <md-switch ng-model="compareCtrl.graphs[id].filterFailed" aria-label="Switch 1">
+                Filter Failed
+              </md-switch>
+            </div>
           <nvd3 options="compareCtrl.graphs[id].modelResult.options" data="compareCtrl.graphs[id].modelResult.data" config="{deepWatchData: false}" api="compareCtrl.graphs[id].modelResult.api"></nvd3>
           <nvd3 options="compareCtrl.graphs[id].modelResultScatter.options" data="compareCtrl.graphs[id].modelResultScatter.data" config="{deepWatchData: false}" api="compareCtrl.graphs[id].modelResultScatter.api"></nvd3>
           <nvd3 options="compareCtrl.graphs[id].modelResultBar.options" data="compareCtrl.graphs[id].modelResultBar.data" config="{deepWatchData: false}" api="compareCtrl.graphs[id].modelResultBar.api"></nvd3>
@@ -112,22 +124,34 @@
       
       <md-card ng-if="compareCtrl.graphs[id].compare.data.length > 0">
         <md-card-content>
-          <md-input-container>
-            <label>Model</label>
-            <md-select ng-model="compareCtrl.graphs[id].compare.prog1" ng-change="compareCtrl.recalculateCompare(id)" aria-label="Select x">
-              <md-option ng-repeat="value in result.config.progs" value="{{value}}">
-                {{value}}
-              </md-option>
-            </md-select>
-          </md-input-container>
-          
-          <md-input-container>
-          <md-select ng-model="compareCtrl.graphs[id].compare.prog2" ng-change="compareCtrl.recalculateCompare(id)" aria-label="Select y">
-              <md-option ng-repeat="value in result.config.progs" value="{{value}}">
-                {{value}}
-              </md-option>
-            </md-select>
-          </md-input-container>
+          <div layout="column">
+            <md-input-container>
+              <label>First Program</label>
+              <md-select ng-model="compareCtrl.graphs[id].compare.prog1" ng-change="compareCtrl.recalculateCompare(id)" aria-label="Select first program">
+                <md-option ng-repeat="value in result.config.progs" value="{{value}}">
+                  {{value}}
+                </md-option>
+              </md-select>
+            </md-input-container>
+            
+            <md-input-container>
+              <label>Second Program</label>
+              <md-select ng-model="compareCtrl.graphs[id].compare.prog2" ng-change="compareCtrl.recalculateCompare(id)" aria-label="Select second program">
+                <md-option ng-repeat="value in result.config.progs" value="{{value}}">
+                  {{value}}
+                </md-option>
+              </md-select>
+            </md-input-container>
+            
+            <md-input-container>
+              <label>Metric to compare</label>
+              <md-select ng-model="compareCtrl.graphs[id].compare.key" ng-change="compareCtrl.recalculateCompare(id)" aria-label="Select metric">
+                <md-option ng-repeat="value in compareCtrl.resultKeys" value="{{value}}">
+                  {{value}}
+                </md-option>
+              </md-select>
+            </md-input-container>
+          </div>
           <nvd3 options="compareCtrl.graphs[id].compare.options" data="compareCtrl.graphs[id].compare.data" api="compareCtrl.graphs[id].compare.api"></nvd3>
         </md-card-content>
       </md-card>  

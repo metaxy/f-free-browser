@@ -9,7 +9,8 @@ export function GraphResultsModelService(
 ) {"ngInject";
   
   //this.options and this.optionsbar are using the same data but only displaying it differently
-  this.options = {
+  this.options = (models, models_key, results, results_key) => {
+    return {
     chart: {
       type: 'lineChart',
       height: 450,
@@ -20,10 +21,11 @@ export function GraphResultsModelService(
       transitionDuration: 0,
       "useInteractiveGuideline": true,
       xAxis: {
-        showMaxMin: false
+        showMaxMin: false,
+        axisLabel: models_key
       },
       yAxis: {
-        axisLabel: 'Values'
+        axisLabel: results_key
       },
       margin : {
         top: 20,
@@ -35,34 +37,38 @@ export function GraphResultsModelService(
         enabled: false
       }
     }
+    };
   };
   
-  this.optionsBar = {
-    chart: {
-      type: 'multiBarChart',
-      height: 450,
-      x: (d) => d.x,
-      y: (d) => d.y,
-      showControls: true,
-      showValues: true,
-      transitionDuration: 0,
-      "useInteractiveGuideline": true,
-      xAxis: {
-        showMaxMin: false
-      },
-      yAxis: {
-        axisLabel: 'Values'
-      },
-      margin : {
-        top: 20,
-        right: 20,
-        bottom: 60,
-        left: 65
-      },
-      zoom: {
-        enabled: true
+  this.optionsBar = (models, models_key, results, results_key) => {
+    return {
+      chart: {
+        type: 'multiBarChart',
+        height: 450,
+        x: (d) => d.x,
+        y: (d) => d.y,
+        showControls: true,
+        showValues: true,
+        transitionDuration: 0,
+        "useInteractiveGuideline": true,
+        xAxis: {
+          showMaxMin: false,
+          axisLabel: models_key
+        },
+        yAxis: {
+          axisLabel: results_key
+        },
+        margin : {
+          top: 20,
+          right: 20,
+          bottom: 60,
+          left: 65
+        },
+        zoom: {
+          enabled: true
+        }
       }
-    }
+    };
   };
   /**
    * models :: object -- List of models, from $INSTANCES/graph_info.json
@@ -81,7 +87,9 @@ export function GraphResultsModelService(
      
     _.each(results.results, (runs, graph) => {
       _.each(runs, (run) => {
-        values[run.prog].push({x: models[graph][models_key], y: run.metrics[results_key]});
+        if(!isNaN(run.metrics[results_key])) {
+          values[run.prog].push({x: models[graph][models_key], y: run.metrics[results_key]});
+        }
       });
     });
     
@@ -89,7 +97,10 @@ export function GraphResultsModelService(
       var avg = (val) => HelperService.avg(_.map(val, x => x.y));
       var v = _.chain(values[prog])
         .groupBy('x')
-        .map((val) => {return {x: val[0].x, y: avg(val)}})
+        .map((val) => {
+          return {x: val[0].x, y: avg(val)}
+          
+        })
         .sortBy('x')
         .value();
       

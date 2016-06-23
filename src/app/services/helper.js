@@ -65,6 +65,11 @@ export function HelperService(
   this.transformResult = (resp) => {
     resp.stats_time_min = _.min(resp.stats, (a) => a.time).time;
     resp.stats_quality_max = _.max(resp.stats, (a) => a.quality).quality;
+    resp.stats_quality_inv_min = _.min(resp.stats, (a) => a.qualityInv).qualityInv;
+    resp.stats_absolut_min = _.min(resp.stats, (a) => a.absolut).absolut;
+    resp.stats_absolut_norm_min= _.min(resp.stats, (a) => a.absolut_norm).absolut_norm;
+    resp.stats_distance_min = _.min(resp.stats, (a) => a.distance).distance;
+    resp.stats_distance_norm_min = _.min(resp.stats, (a) => a.distance_norm).distance_norm;
     resp.stats_failed_min = _.min(resp.stats, (a) => a.failed).failed;
     resp.stats_failed_percent_min = _.min(resp.stats, (a) => a.failed_percent).failed_percent;
     resp.name = this.basename(resp.options.config) + " : " + this.basename(resp.config.instances) + " - " + this.basename(resp.config.forbidden);

@@ -22,7 +22,7 @@ export function CompareController(
       filterFailed: true,
       modelResult: {
         data: {},
-        options: GraphResultsModelService.options
+        options: GraphResultsModelService.options()
       }, 
       modelResultScatter: {
         data: {},
@@ -30,7 +30,7 @@ export function CompareController(
       },
       modelResultBar: {
         data: {},
-        options: GraphResultsModelService.optionsBar
+        options: GraphResultsModelService.optionsBar()
       },
       compare: {
         data: {},
@@ -55,12 +55,16 @@ export function CompareController(
     let graph = this.graphs[i];
     let data = resolveData[i];
     let model = resolveModel[i];
-    console.log(data, model);
     let calc = GraphResultsModelService.calculate(model, graph.x_key, data, graph.y_key);
     
     graph.modelResult.data = calc;
+    graph.modelResult.options = GraphResultsModelService.options(model, graph.x_key, data, graph.y_key);
+    
+    graph.modelResultBar.data = calc;
+    graph.modelResultBar.options = GraphResultsModelService.optionsBar(model, graph.x_key, data, graph.y_key);
+    
     if(graph.modelResult.api) {
-      graph.modelResult.api.updateWithData(calc);
+      graph.modelResult.api.updateWithData(graph.modelResult.data);
     }  
       
     
@@ -69,14 +73,15 @@ export function CompareController(
       graph.modelResultScatter.api.updateWithData(graph.modelResultScatter.data);
     }
     
-    graph.modelResultBar.data = calc;
+   
     if(graph.modelResultBar.api) {
-      graph.modelResultBar.api.updateWithData(calc);
+      graph.modelResultBar.api.updateWithData(graph.modelResult.data);
     }
+   
   }
   
   this.recalculateCompare = (i) => {
-    /*let graph = this.graphs[i].compare;
+    let graph = this.graphs[i].compare;
     let data = resolveData[i];
     if(data.config.progs.length < 2) return;  
     graph.data = GraphProgCompareService.calculate(data, graph.prog1, graph.prog2, graph.key);
@@ -84,13 +89,24 @@ export function CompareController(
     if(graph.api) {
       graph.api.updateWithData(graph.data);
       graph.api.updateWithOptions(graph.options);
-    }  */
+    } 
   }
   
   this.results = resolveData;
   
   this.modelKeys = Object.keys(resolveModel[0][Object.keys(resolveModel[0])[0]]);
-  this.resultKeys = ["absolut", "no_correct", "solved", "quality", "quality_inv", "distance", "k_correct", "time"];
+  this.resultKeys = [
+    "absolut",
+    "absolutNorm",
+    "no_correct", 
+    "solved", 
+    "quality", 
+    "quality_inv", 
+    "distance",
+    "distanceNorm",
+    "k_correct", 
+    "time"
+  ];
   
   
   this.showRun = (ev, run) => {
